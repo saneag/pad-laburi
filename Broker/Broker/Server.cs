@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Collections.Concurrent;
+using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using Broker.Clients;
@@ -9,20 +10,22 @@ public class Server
 {
     private Socket _serverSocket;
     private IPEndPoint _serverEndPoint;
+    
+    private readonly List<Subscriber> _subscribers = new();
 
+    private ConcurrentDictionary<string, EndPoint> _clients = new();
 
-    private readonly List<Subscriber> _clients = new List<Subscriber>();      
 
     private static readonly object _locker = new();
 
     public void Init(string ip, int port)
     {
-        var ipAddress = IPAddress.Parse(ip);
+        _serverSocket = new Socket(
+            AddressFamily.InterNetwork,
+            SocketType.Stream, 
+            ProtocolType.Tcp);
 
-        _serverSocket = new Socket(AddressFamily.InterNetwork,
-            SocketType.Stream, ProtocolType.Tcp);
-
-        _serverEndPoint = new IPEndPoint(ipAddress, port);
+        _serverEndPoint = new IPEndPoint(IPAddress.Parse(ip), port);
     }
 
     public void BindAndListen(int queueLimit)
@@ -30,36 +33,41 @@ public class Server
         try
         {
             _serverSocket.Bind(_serverEndPoint);
-
-
-
             _serverSocket.Listen(queueLimit);
 
             Console.WriteLine("Server listening on: {0}", _serverEndPoint);
         }
         catch (SocketException ex)
         {
-            Console.WriteLine("Socket error: {0}", ex.Message);
+            ConsoleEx.WriteError("Socket error: "); 
+            Console.WriteLine(ex.Message);
             throw;
         }
         catch (Exception e)
         {
-            Console.WriteLine("Error binding or listening: {0}", e.Message);
+            ConsoleEx.WriteError("Error binding or listening: ");
+            Console.WriteLine(e.Message);
             throw;
         }
     }
 
-    public void AcceptAndHandleClients()
+    public void AcceptAndHandleConnections()
     {
-        while (true)
+        Console.WriteLine("Waiting for clients!");
+        while (true)    
         {
             var clientSocket = AcceptClient();
 
             if (clientSocket == null) continue;
 
+            var ip = ((IPEndPoint) clientSocket.RemoteEndPoint!).Address.ToString();
+
+            Console.Write($"{ip}");
+            ConsoleEx.WriteLineSuccess(" connected!");
+
             Task.Run(() =>
             {
-                HandleClient(clientSocket);
+                HandleConnections(clientSocket);
             });
         }
     }
@@ -73,17 +81,19 @@ public class Server
         }
         catch (Exception e)
         {
-            Console.WriteLine("Error accepting client: {0}", e.Message);
+            ConsoleEx.WriteLineError($"Error accepting client: {e.Message}");
         }
 
         return socket;
     }
 
-    private void HandleClient(Socket clientSocket)
+    private void HandleConnections(Socket clientSocket)
     {
         var client = new Subscriber(clientSocket);
 
-        _clients.Add(client);
+        //
+
+        _subscribers.Add(client);
 
         ReceiveMessageLoop(client);
     }
@@ -105,6 +115,11 @@ public class Server
                 }
 
                 string messageText = Encoding.UTF8.GetString(bytesReceived, 0, byteCount);
+
+                //print ip
+                
+                //Console.WriteLine("Client {0} sent: ", client.Socket.RemoteEndPoint);
+                Console.WriteLine($"{client.Socket.RemoteEndPoint}: {messageText}");
 
                 //PrintClientMessage(client, messageText);
 

@@ -1,10 +1,14 @@
 ﻿using Broker;
 
+var ip = "127.0.0.1";
+var port = 5050;  
+var connectionsLimit = 15;
+
 var server = new Server();
 
 try
 {
-    server.Init("127.0.0.1", 5050);
+    server.Init(ip, port);
 }
 catch (Exception e)
 {
@@ -14,7 +18,7 @@ catch (Exception e)
 
 try
 {
-    server.BindAndListen(15);
+    server.BindAndListen(connectionsLimit);
 }
 catch (Exception e)
 {
@@ -22,4 +26,4 @@ catch (Exception e)
     return;
 }
 
-server.AcceptAndHandleClients();
+server.AcceptAndHandleConnections();
