@@ -39,7 +39,7 @@ public class ClientSocket
     {
         while (true)
         {
-            Console.Write("\nMessage: ");
+            Console.Write("\nInput: ");
 
             var input = Console.ReadLine() ?? "";
 
@@ -54,11 +54,6 @@ public class ClientSocket
                 else
                     PrintColoredText("Fail. Not all data has been sent", ConsoleColor.Red);
             }
-            catch (SocketException e)
-            {
-                Console.WriteLine(e.Message);
-                break;
-            }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
@@ -67,6 +62,25 @@ public class ClientSocket
         }
 
         _clientSocket.Close();
+    }
+
+    public void SendMessage(string message)
+    {
+        var bytesData = Encoding.UTF8.GetBytes(message);
+
+        try
+        {
+            var sendBytes = _clientSocket.Send(bytesData);
+
+            if (sendBytes == bytesData.Length)
+                PrintColoredText("Success. All data has been sent", ConsoleColor.Green);
+            else
+                PrintColoredText("Fail. Not all data has been sent", ConsoleColor.Red);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+        }
     }
 
     private void PrintColoredText(string text, ConsoleColor color)
