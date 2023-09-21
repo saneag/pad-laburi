@@ -15,6 +15,8 @@ internal static class ConsoleEx
     }
     public static void WriteLine(string colored, ConsoleColor color = ConsoleColor.White) 
         => Write($"{colored}\n", color);
+    public static void WriteLine(string colored, string? colorless, ConsoleColor color = ConsoleColor.White)
+        => Write(colored, $"{colorless}\n", color);
 
     public static void WriteError(string colored, string colorless = "")     
         => Write(colored, colorless, ConsoleColor.Red);

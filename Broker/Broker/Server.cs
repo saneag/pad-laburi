@@ -83,6 +83,12 @@ public class Server
         try
         {
             connectedSocked.Receive(data);
+
+            if (data.Length == 0)
+            {
+                DisconnectSocket(connectedSocked);
+                return;
+            }
         }
         catch (Exception)
         {
@@ -96,12 +102,10 @@ public class Server
             HandleSubscriber(connectedSocked);
         else if (string.Equals(role, PUBLISHER))
             HandlePublisher(connectedSocked);
-        else
-        {
-            var message = $"Invalid role!. Valid roles: {SUBSCRIBER}, {PUBLISHER}. Reconnect!";
-            connectedSocked.Send(Encoding.ASCII.GetBytes(message));
-            DisconnectSocket(connectedSocked);
-        }
+        
+        var message = $"Invalid role!. Valid roles: {SUBSCRIBER}, {PUBLISHER}. Reconnect!";
+        connectedSocked.Send(Encoding.ASCII.GetBytes(message));
+        DisconnectSocket(connectedSocked);
     }
 
     private void HandlePublisher(Socket publisherSocket)
@@ -118,7 +122,11 @@ public class Server
 
             try
             {
-                publisherSocket.Receive(data);
+                if (publisherSocket.Receive(data) == 0)
+                {
+                    DisconnectSocket(publisherSocket);
+                    break;
+                }
             }
             catch (Exception)
             {
@@ -133,14 +141,16 @@ public class Server
             {
                 post = JsonConvert.DeserializeObject<Post>(message);
 
+                if(post == null) continue;
+
                if (string.IsNullOrEmpty(post.Topic)
                    || string.IsNullOrEmpty(post.Title)
                    || string.IsNullOrEmpty(post.Message))
                {
                    Console.Write($"Post from {endPoint} do not contains:");
-                   ConsoleEx.Write(post.Topic != String.Empty ? "" : " topic");
-                   Console.Write(post.Title != String.Empty ? "" : " title");
-                   Console.Write(post.Message != String.Empty ? "" : " message");
+                   ConsoleEx.Write(post.Topic != string.Empty ? "" : " topic");
+                   Console.Write(post.Title != string.Empty ? "" : " title");
+                   Console.Write(post.Message != string.Empty ? "" : " message");
                    Console.WriteLine();
 
                    continue;
@@ -176,7 +186,7 @@ public class Server
                     catch (Exception)
                     {
                         DisconnectSocket(subscriber);
-                        DeleteSubscriberFromSubscriptions(subscriber);
+                        Unsubscribe(subscriber);
                     }
                 }
             }
@@ -188,16 +198,12 @@ public class Server
         Console.Write($"{(IPEndPoint)subscriberSocket.RemoteEndPoint!} ");
         ConsoleEx.WriteLine("SUBSCRIBER", ConsoleColor.Blue);
 
-        // send serialized topic list
-        if (!SendTopicsToSubscriber(subscriberSocket)) return;
-
-        // wait for list of subscriptions
-        if (!GetSubscriptionsFromSubscriber(subscriberSocket)) return;
-
-        if (!SocketConnectionState(subscriberSocket).Result)
+        if (!SendTopicsToSubscriber(subscriberSocket) ||
+            !GetSubscriptionsFromSubscriber(subscriberSocket) ||
+            !SocketConnectionState(subscriberSocket).Result)
         {
             DisconnectSocket(subscriberSocket);
-            DeleteSubscriberFromSubscriptions(subscriberSocket);
+            Unsubscribe(subscriberSocket);
         }
     }
 
@@ -209,10 +215,11 @@ public class Server
             // receive json list of subscriptions from subscriber
             subscriberSocket.Receive(data);
 
+            if (data.Length == 0) return false;
+
             var subscriptions = JsonConvert.DeserializeObject<List<string>>(Encoding.ASCII.GetString(data));
 
             Console.Write($"{(IPEndPoint)subscriberSocket.RemoteEndPoint!} subscribed to: ");
-
 
             //add subscriber to subscriptions
             foreach (var subscription in subscriptions)
@@ -234,8 +241,6 @@ public class Server
         }
         catch (Exception)
         {
-            DisconnectSocket(subscriberSocket);
-            DeleteSubscriberFromSubscriptions(subscriberSocket);
             return false;
         }
 
@@ -252,7 +257,6 @@ public class Server
         }
         catch (Exception)
         {
-            DisconnectSocket(subscriberSocket);
             return false;
         }
         return true;
@@ -264,7 +268,9 @@ public class Server
         {
             try
             {
-                await subscriberSocket.ReceiveAsync(new byte[1024]);
+                var bytesCount = await subscriberSocket.ReceiveAsync(new byte[1024]);
+
+                if(bytesCount == 0) return false;
             }
             catch (Exception)
             {
@@ -274,16 +280,15 @@ public class Server
         return true;
     }
 
-    private void DeleteSubscriberFromSubscriptions(Socket subscriberSocket)
+    private void Unsubscribe(Socket socket)
     {
         lock (LockerSubscriptions)
         {
-            foreach (var (_, subscribers) in _subscriptions)
+            foreach (var (_, subs) in _subscriptions)
             {
-                if (subscribers.Contains(subscriberSocket))
-                    subscribers.Remove(subscriberSocket);
+                if (subs.Contains(socket)) subs.Remove(socket);
             }
-        }
+        }   
     }
 
     private static void DisconnectSocket(Socket socket)
