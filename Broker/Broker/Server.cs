@@ -1,4 +1,5 @@
 ﻿using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -132,14 +133,22 @@ public class Server
             {
                 post = JsonConvert.DeserializeObject<Post>(message);
 
-                if (string.IsNullOrEmpty(post.Topic)
+               if (string.IsNullOrEmpty(post.Topic)
                    || string.IsNullOrEmpty(post.Title)
                    || string.IsNullOrEmpty(post.Message))
-                    continue;
+               {
+                   Console.Write($"Post from {endPoint} do not contains:");
+                   ConsoleEx.Write(post.Topic != String.Empty ? "" : " topic");
+                   Console.Write(post.Title != String.Empty ? "" : " title");
+                   Console.Write(post.Message != String.Empty ? "" : " message");
+                   Console.WriteLine();
+
+                   continue;
+                }
             }
             catch (Exception)
             {
-                ConsoleEx.WriteLineError("Error deserializing message from: ", endPoint.ToString());
+                ConsoleEx.WriteLineError("Error deserializing post from: ", endPoint.ToString());
             }
 
             // check if topic exists
@@ -179,27 +188,20 @@ public class Server
         Console.Write($"{(IPEndPoint)subscriberSocket.RemoteEndPoint!} ");
         ConsoleEx.WriteLine("SUBSCRIBER", ConsoleColor.Blue);
 
-        SendTopicsToSubscriber(subscriberSocket);
+        // send serialized topic list
+        if (!SendTopicsToSubscriber(subscriberSocket)) return;
 
-        GetSubscriptionsFromSubscriber(subscriberSocket);
+        // wait for list of subscriptions
+        if (!GetSubscriptionsFromSubscriber(subscriberSocket)) return;
 
-        // verify connection
-        while (true)
+        if (!SocketConnectionState(subscriberSocket).Result)
         {
-            try
-            {
-                subscriberSocket.Receive(new byte[1024]);
-            }
-            catch (Exception)
-            {
-                DisconnectSocket(subscriberSocket);
-                DeleteSubscriberFromSubscriptions(subscriberSocket);
-                break;
-            }
+            DisconnectSocket(subscriberSocket);
+            DeleteSubscriberFromSubscriptions(subscriberSocket);
         }
     }
 
-    private void GetSubscriptionsFromSubscriber(Socket subscriberSocket)
+    private bool GetSubscriptionsFromSubscriber(Socket subscriberSocket)
     {
         var data = new byte[1024];
         try
@@ -224,7 +226,7 @@ public class Server
                 {
                     lock (LockerSubscriptions)
                     {
-                        _subscriptions.TryAdd(subscription, new List<Socket> { subscriberSocket });
+                         _subscriptions.TryAdd(subscription, new List<Socket> { subscriberSocket });
                     }
                 }
             }
@@ -234,14 +236,16 @@ public class Server
         {
             DisconnectSocket(subscriberSocket);
             DeleteSubscriberFromSubscriptions(subscriberSocket);
+            return false;
         }
+
+        return true;
     }
 
-    private void SendTopicsToSubscriber(Socket subscriberSocket)
+    private bool SendTopicsToSubscriber(Socket subscriberSocket)
     {
         try
         {
-            //send serialized topic list and wait for list of subscriptions
             var topicsJson = JsonConvert.SerializeObject(_topics);
 
             subscriberSocket.Send(Encoding.ASCII.GetBytes(topicsJson));
@@ -249,7 +253,25 @@ public class Server
         catch (Exception)
         {
             DisconnectSocket(subscriberSocket);
+            return false;
         }
+        return true;
+    }
+
+    private static async Task<bool> SocketConnectionState(Socket subscriberSocket)
+    {
+        while (true)
+        {
+            try
+            {
+                await subscriberSocket.ReceiveAsync(new byte[1024]);
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+        return true;
     }
 
     private void DeleteSubscriberFromSubscriptions(Socket subscriberSocket)
