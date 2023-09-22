@@ -9,6 +9,16 @@ namespace Broker;
 
 public class Server
 {
+    public Server()
+    {
+        _serverSocket = new Socket(
+            AddressFamily.InterNetwork,
+            SocketType.Stream,
+            ProtocolType.Tcp);
+
+        _serverEndPoint = new IPEndPoint(IpUtilities.GetIpAddress(), IpUtilities.GetAvailablePort());
+    }
+
     public Server(string ip, int port)
     {
         _serverSocket = new Socket(
@@ -17,6 +27,16 @@ public class Server
             ProtocolType.Tcp);
 
         _serverEndPoint = new IPEndPoint(IPAddress.Parse(ip), port);
+    }
+
+    public Server(IPAddress ip, int port)
+    {
+        _serverSocket = new Socket(
+            AddressFamily.InterNetwork,
+            SocketType.Stream,
+            ProtocolType.Tcp);
+
+        _serverEndPoint = new IPEndPoint(ip, port);
     }
 
     public const string SUBSCRIBER = "subscriber";
@@ -37,20 +57,36 @@ public class Server
     private readonly ConcurrentDictionary<string, List<Socket>> _subscriptions = new();
     private static readonly object LockerSubscriptions = new();
 
+    // store topics
+    private readonly ConcurrentDictionary<string, List<Post>> _posts = new();
 
     public void BindAndListen(int queueLimit)
     {
-        try
-        {
-            _serverSocket.Bind(_serverEndPoint);
-            _serverSocket.Listen(queueLimit);
+        var notBinded = true;
 
-            Console.WriteLine("Server listening on: {0}", _serverEndPoint);
-        }
-        catch (Exception e)
+        while (notBinded)
         {
-            ConsoleEx.WriteLineError("Error binding or listening: ", e.Message);
-            throw;
+            try
+            {
+                _serverSocket.Bind(_serverEndPoint);
+            }
+            catch (Exception)
+            {
+                continue;
+            }
+            notBinded = false;
+
+            try
+            {
+                _serverSocket.Listen(queueLimit);
+
+                Console.WriteLine("Server listening on: {0}", _serverEndPoint);
+            }
+            catch (Exception e)
+            {
+                ConsoleEx.WriteLineError("Error listening: ", e.Message);
+                throw;
+            }
         }
     }
 
@@ -61,10 +97,6 @@ public class Server
             try
             {
                 var connectedSocked = _serverSocket.Accept();
-
-                Console.Write($"{(IPEndPoint)connectedSocked.RemoteEndPoint!}");
-                ConsoleEx.WriteLineSuccess(" CONNECTED");
-
                 Task.Run(() => { RegisterConnection(connectedSocked); });
             }
             catch (Exception e)
@@ -76,8 +108,6 @@ public class Server
 
     private void RegisterConnection(Socket connectedSocked)
     {
-        Console.WriteLine("Thread={0}", Environment.CurrentManagedThreadId);
-
         var data = new byte[1024];
 
         try
@@ -102,18 +132,28 @@ public class Server
             HandleSubscriber(connectedSocked);
         else if (string.Equals(role, PUBLISHER))
             HandlePublisher(connectedSocked);
-        
-        var message = $"Invalid role!. Valid roles: {SUBSCRIBER}, {PUBLISHER}. Reconnect!";
-        connectedSocked.Send(Encoding.ASCII.GetBytes(message));
-        DisconnectSocket(connectedSocked);
+        else
+        {
+            var message = $"Invalid role!. Valid roles: {SUBSCRIBER}, {PUBLISHER}. Reconnect!";
+
+            try
+            {
+                connectedSocked.Send(Encoding.ASCII.GetBytes(message));
+            }
+            finally
+            {
+                DisconnectSocket(connectedSocked);
+            }
+        }
     }
 
     private void HandlePublisher(Socket publisherSocket)
     {
         var endPoint = (IPEndPoint)publisherSocket.RemoteEndPoint!;
 
-        Console.Write($"{endPoint} ");
-        ConsoleEx.WriteLine("PUBLISHER", ConsoleColor.DarkCyan);
+        Console.Write($"{endPoint} connected as ");
+        ConsoleEx.Write("PUBLISHER", ConsoleColor.DarkCyan);
+        Console.WriteLine(" Thread={0}", Environment.CurrentManagedThreadId);
 
         // wait for publisher messages
         while (true)
@@ -127,6 +167,8 @@ public class Server
                     DisconnectSocket(publisherSocket);
                     break;
                 }
+
+                Console.WriteLine($"Received from {endPoint}: {Encoding.ASCII.GetString(data)}");
             }
             catch (Exception)
             {
@@ -195,7 +237,7 @@ public class Server
 
     private void HandleSubscriber(Socket subscriberSocket)
     {
-        Console.Write($"{(IPEndPoint)subscriberSocket.RemoteEndPoint!} ");
+        Console.Write($"{(IPEndPoint)subscriberSocket.RemoteEndPoint!} connected as");
         ConsoleEx.WriteLine("SUBSCRIBER", ConsoleColor.Blue);
 
         if (!SendTopicsToSubscriber(subscriberSocket) ||

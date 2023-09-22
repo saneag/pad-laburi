@@ -2,11 +2,9 @@
 
 Console.ForegroundColor = ConsoleColor.White;
 
-var ip = "127.0.0.1";
-var port = 5050;  
 var connectionsLimit = 15;
 
-var server = new Server(ip, port);
+var server = new Server();
 
 try
 {
@@ -21,5 +19,3 @@ catch (Exception e)
 Console.WriteLine("Waiting for clients!");
 
 server.AcceptAndHandleConnections();
-
-//await Task.Delay(Timeout.Infinite);
