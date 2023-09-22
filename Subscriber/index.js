@@ -12,7 +12,10 @@ let isMessageTruncated = false;
 
 const client = new net.Socket();
 
-client.connect(5050, '127.0.0.1');
+const ip = await getIp('Enter IP address: ');
+const port = await getPort('Enter port number: ');
+
+client.connect(port, ip);
 
 client.on('connect', () => {
     console.log('Connected');
@@ -143,6 +146,28 @@ async function getUserInput() {
                 reject(err);
             }
             resolve(result.topic);
+        });
+    });
+}
+
+async function getIp() {
+    return new Promise((resolve, reject) => {
+        prompt.get(['ip'], (err, result) => {
+            if (err) {
+                reject(err);
+            }
+            resolve(result.ip);
+        });
+    });
+}
+
+async function getPort() {
+    return new Promise((resolve, reject) => {
+        prompt.get(['port'], (err, result) => {
+            if (err) {
+                reject(err);
+            }
+            resolve(result.port);
         });
     });
 }
