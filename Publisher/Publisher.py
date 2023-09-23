@@ -9,6 +9,7 @@ def main():
         port = int(input("Introduceți portul: "))
 
         client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        client.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         client.connect((ip_address, port))
 
         client.sendall("publisher".encode('utf-8'))
