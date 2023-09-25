@@ -62,9 +62,7 @@ public class Server
 
     public void BindAndListen(int queueLimit)
     {
-        var notBinded = true;
-
-        while (notBinded)
+        while (true)
         {
             try
             {
@@ -74,19 +72,18 @@ public class Server
             {
                 continue;
             }
-            notBinded = false;
+            break;
+        }
+        try
+        {
+            _serverSocket.Listen(queueLimit);
 
-            try
-            {
-                _serverSocket.Listen(queueLimit);
-
-                Console.WriteLine("Server listening on: {0}", _serverEndPoint);
-            }
-            catch (Exception e)
-            {
-                ConsoleEx.WriteLineError("Error listening: ", e.Message);
-                throw;
-            }
+            Console.WriteLine("Server listening on: {0}", _serverEndPoint);
+        }
+        catch (Exception e)
+        {
+            ConsoleEx.WriteLineError("Error listening: ", e.Message);
+            throw;
         }
     }
 
@@ -97,7 +94,8 @@ public class Server
             try
             {
                 var connectedSocked = _serverSocket.Accept();
-                Task.Run(() => { RegisterConnection(connectedSocked); });
+
+                Task.Run(() => RegisterConnection(connectedSocked));
             }
             catch (Exception e)
             {
@@ -112,9 +110,7 @@ public class Server
 
         try
         {
-            connectedSocked.Receive(data);
-
-            if (data.Length == 0)
+            if (connectedSocked.Receive(data) == 0)
             {
                 DisconnectSocket(connectedSocked);
                 return;
@@ -135,7 +131,6 @@ public class Server
         else
         {
             var message = $"Invalid role!. Valid roles: {SUBSCRIBER}, {PUBLISHER}. Reconnect!";
-
             try
             {
                 connectedSocked.Send(Encoding.ASCII.GetBytes(message));
