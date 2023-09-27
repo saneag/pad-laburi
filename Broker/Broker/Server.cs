@@ -39,6 +39,16 @@ public class Server
         _serverEndPoint = new IPEndPoint(ip, port);
     }
 
+    public Server(int port)
+    {
+        _serverSocket = new Socket(
+            AddressFamily.InterNetwork,
+            SocketType.Stream,
+            ProtocolType.Tcp);
+
+        _serverEndPoint = new IPEndPoint(IpUtilities.GetIpAddress(), port);
+    }
+
     public const string SUBSCRIBER = "subscriber";
     public const string PUBLISHER = "publisher";
 
@@ -232,8 +242,9 @@ public class Server
 
     private void HandleSubscriber(Socket subscriberSocket)
     {
-        Console.Write($"{(IPEndPoint)subscriberSocket.RemoteEndPoint!} connected as");
-        ConsoleEx.WriteLine("SUBSCRIBER", ConsoleColor.Blue);
+        Console.Write($"{(IPEndPoint)subscriberSocket.RemoteEndPoint!} connected as ");
+        ConsoleEx.Write("SUBSCRIBER", ConsoleColor.Blue);
+        Console.WriteLine(" Thread={0}", Environment.CurrentManagedThreadId);
 
         if (!SendTopicsToSubscriber(subscriberSocket) ||
             !GetSubscriptionsFromSubscriber(subscriberSocket) ||

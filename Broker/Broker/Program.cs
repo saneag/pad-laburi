@@ -4,7 +4,7 @@ Console.ForegroundColor = ConsoleColor.White;
 
 var connectionsLimit = 15;
 
-var server = new Server();
+var server = new Server(5050);
 
 try
 {
