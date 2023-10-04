@@ -9,7 +9,6 @@ namespace gRPC_Broker.Services.Implementations;
 public class SubscriberStorageService: ISubscriberStorageService
 {
     private readonly ConcurrentDictionary<string ,List<Subscriber>> _subscribers = new();
-    private readonly IList<string> _uniqSubscribers = new List<string>();
     private readonly object _lock = new();
 
     public void Add(Subscriber subscriber, List<string> topics)

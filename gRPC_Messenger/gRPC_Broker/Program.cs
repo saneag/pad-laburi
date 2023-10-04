@@ -2,7 +2,6 @@ using gRPC_Broker.Services;
 using gRPC_Broker.Services.Implementations;
 using gRPC_Broker.Services.Interfaces;
 using gRPC_Common;
-using Spectre.Console;
 
 var builder = WebApplication.CreateBuilder(args);
 
