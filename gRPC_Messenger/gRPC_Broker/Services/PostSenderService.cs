@@ -48,6 +48,7 @@ public class PostSenderService: IHostedService
 
                 var request = new NotifyRequest
                 {
+                    Topic = post.Topic,
                     Title = post.Title,
                     Message = post.Message
                 };
