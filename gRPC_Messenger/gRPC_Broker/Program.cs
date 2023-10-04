@@ -8,7 +8,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddGrpc();
 builder.Services.AddSingleton<IPostStorageService, PostStorageService>();
 builder.Services.AddSingleton<ISubscriberStorageService, SubscriberStorageService>();
+builder.Services.AddSingleton<ILogStorageService, LogStorageService>();
 builder.Services.AddHostedService<PostSenderService>();
+builder.Services.AddHostedService<LogPrintService>();
 
 var app = builder.Build();
 

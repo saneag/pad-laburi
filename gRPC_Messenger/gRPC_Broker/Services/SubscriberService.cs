@@ -1,5 +1,6 @@
 ﻿
 
+using System.Text;
 using Grpc.Core;
 using gRPC_Broker.Services.Interfaces;
 using gRPC_Messenger;
@@ -8,21 +9,30 @@ namespace gRPC_Broker.Services;
 
 public class SubscriberService: Subscriber.SubscriberBase
 {
-    private readonly ILogger<SubscriberService> _logger;
     private readonly ISubscriberStorageService _subscriberStorageService;
+    private readonly ILogStorageService _logStorageService;
 
-    public SubscriberService(ILogger<SubscriberService> logger, ISubscriberStorageService subscriberStorageService)
+    private readonly object _lock = new();
+
+    public SubscriberService(ISubscriberStorageService subscriberStorageService, ILogStorageService logStorageService)
     {
-        _logger = logger;
         _subscriberStorageService = subscriberStorageService;
+        _logStorageService = logStorageService;
     }   
 
     public override Task<SubscribeReply> Subscribe(SubscribeRequest request, ServerCallContext context)
     {
-        Console.Write($"NEW SUB: {request.Address} [");
+        var sb = new StringBuilder();
+
+        sb.Append($"[green]CONNECTED[/] {request.Address.Replace("https://","")} subscribed to: ");
         foreach (var topic in request.Subscriptions)
-            Console.Write($" {topic}");
-        Console.WriteLine(" ]");
+            sb.Append($" {topic}");
+        sb.Append(' ');
+
+        lock (_lock)
+        {
+            _logStorageService.AddLog(sb.ToString());
+        }
 
         try
         {
@@ -32,9 +42,11 @@ public class SubscriberService: Subscriber.SubscriberBase
         }
         catch (Exception)
         {
-            Console.WriteLine($"Fail to add subscriber: {request.Address}");
+            lock (_lock)
+            {
+                _logStorageService.AddLog($"[red]Error[/] Fail to add subscriber: {request.Address}");
+            }
         }
-
         
 
         return Task.FromResult(new SubscribeReply
