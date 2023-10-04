@@ -7,14 +7,14 @@ namespace gRPC_Broker.Services;
 
 public class PublisherService: Publisher.PublisherBase
 {   
-    private readonly ILogger<PublisherService> _logger;
     private readonly IPostStorageService _postStorageService;
+    private readonly ILogStorageService _logStorageService;
 
 
-    public PublisherService(ILogger<PublisherService> logger, IPostStorageService postStorageService)
+    public PublisherService(IPostStorageService postStorageService, ILogStorageService logStorageService)
     {
-        _logger = logger;
         _postStorageService = postStorageService;
+        _logStorageService = logStorageService;
     }
 
     public override Task<PublishReply> PublishPost(PublishRequest request, ServerCallContext context)
@@ -23,7 +23,7 @@ public class PublisherService: Publisher.PublisherBase
 
         _postStorageService.AddPost(post);
 
-        Console.WriteLine($"NEW POST: {request.Topic} {request.Title} {request.Message}");
+        _logStorageService.AddLog($"[yellow]NEW_POST[/] Topic: {request.Topic}");
 
         return Task.FromResult(new PublishReply
         {

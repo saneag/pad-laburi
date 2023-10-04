@@ -9,6 +9,7 @@ namespace gRPC_Broker.Services.Implementations;
 public class SubscriberStorageService: ISubscriberStorageService
 {
     private readonly ConcurrentDictionary<string ,List<Subscriber>> _subscribers = new();
+    private readonly IList<string> _uniqSubscribers = new List<string>();
     private readonly object _lock = new();
 
     public void Add(Subscriber subscriber, List<string> topics)
@@ -61,12 +62,28 @@ public class SubscriberStorageService: ISubscriberStorageService
         }
     }
 
+    public IList<Subscriber> GetAll()
+    {
+        var subs = new List<Subscriber>();
+        lock (_lock)
+        {
+            foreach (var (_, subscribers) in _subscribers)
+            {
+                subs.AddRange(subscribers);
+            }
+        }
+        return subs.Distinct().ToList();
+    }
+
     public int SubscribersCount()
     {
         var subs = new List<string>();
-        foreach (var (_, subscribers) in _subscribers)
+        lock (_lock)
         {
-           subs.AddRange(subscribers.Select(x => x.Address));
+            foreach (var (_, subscribers) in _subscribers)
+            {
+                subs.AddRange(subscribers.Select(x => x.Address));
+            }
         }
         return subs.Distinct().Count();
     }

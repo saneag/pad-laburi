@@ -1,4 +1,5 @@
 ﻿using Grpc.Core;
+using gRPC_Broker.Entities;
 using gRPC_Broker.Services.Interfaces;
 using gRPC_Messenger;
 
@@ -11,9 +12,12 @@ public class PostSenderService: IHostedService
 
     private readonly IPostStorageService _postStorageService;
     private readonly ISubscriberStorageService _subscriberStorageService;
+    private readonly ILogStorageService _logStorageService;
 
-    public PostSenderService(IServiceScopeFactory serviceScopeFactory)
+    public PostSenderService(IServiceScopeFactory serviceScopeFactory, ILogStorageService logStorageService)
     {
+        _logStorageService = logStorageService;
+
         using var scope = serviceScopeFactory.CreateScope();
 
         _postStorageService = scope.ServiceProvider.GetRequiredService<IPostStorageService>();
@@ -42,28 +46,39 @@ public class PostSenderService: IHostedService
 
             var subscribers = _subscriberStorageService.Get(post.Topic);
 
-            foreach (var subscriber in subscribers)
+            try
             {
-                var client = new Notification.NotificationClient(subscriber.Channel);
-
-                var request = new NotifyRequest
+                foreach (var subscriber in subscribers)
                 {
-                    Topic = post.Topic,
-                    Title = post.Title,
-                    Message = post.Message
-                };
+                    var client = new Notification.NotificationClient(subscriber.Channel);
 
-                try
-                {
-                    var reply = client.Notify(request);
+                    var request = new NotifyRequest
+                    {
+                        Topic = post.Topic,
+                        Title = post.Title,
+                        Message = post.Message
+                    };
 
-                    Console.WriteLine($"Notification sent: {reply.IsSuccess}");
+                    try
+                    {
+                        var reply = client.Notify(request);
+
+                        _logStorageService.AddLog(reply.IsSuccess ? "[green]SUCCESS[/] sending post" : "[red]FAIL[/] sending post");
+                    }
+                    catch (RpcException)
+                    {
+                        _subscriberStorageService.Remove(subscriber);
+                        _logStorageService.AddLog($"[red]DISCONNECTED[/] {subscriber.Address.Replace("https://","")}");
+                    }
+                    catch (Exception)
+                    {
+                        _logStorageService.AddLog($"Error notifying subscriber.");
+                    }
                 }
-                catch (Exception e)
-                {
-                    Console.WriteLine($"Error notifying subscriber. {e.Message}");
-                    
-                }
+            }
+            catch (Exception)
+            {
+                _logStorageService.AddLog($"[red]Error[/] accessing subscribers");
             }
 
         }
