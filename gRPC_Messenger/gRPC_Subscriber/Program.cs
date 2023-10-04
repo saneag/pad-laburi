@@ -29,18 +29,12 @@ var httpHandler = new HttpClientHandler
 };
 
 Console.Write("Enter broker ip: ");
-var brokerIp = Console.ReadLine();
+var ipAddress = Console.ReadLine();
+ipAddress = string.IsNullOrEmpty(ipAddress) 
+    ? EndPoints.Broker 
+    : $"https://{ipAddress}:5050";
 
-if (brokerIp == null)
-{
-    brokerIp = EndPoints.Broker;
-}
-else
-{
-    brokerIp = $"https://{brokerIp}:5050";
-}
-
-using var channel = GrpcChannel.ForAddress(brokerIp,
+using var channel = GrpcChannel.ForAddress(ipAddress,
     new GrpcChannelOptions { HttpHandler = httpHandler });
 
 var client = new Subscriber.SubscriberClient(channel);
