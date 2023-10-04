@@ -60,4 +60,14 @@ public class SubscriberStorageService: ISubscriberStorageService
                 : new List<Subscriber>();
         }
     }
+
+    public int SubscribersCount()
+    {
+        var subs = new List<string>();
+        foreach (var (_, subscribers) in _subscribers)
+        {
+           subs.AddRange(subscribers.Select(x => x.Address));
+        }
+        return subs.Distinct().Count();
+    }
 }

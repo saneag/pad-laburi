@@ -8,4 +8,6 @@ public interface ISubscriberStorageService
     void Add(Subscriber subscriber, string topic);
     void Remove(Subscriber subscriber);
     IList<Subscriber> Get(string topic);
+
+    int SubscribersCount();
 }           
