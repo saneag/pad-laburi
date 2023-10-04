@@ -2,5 +2,7 @@
 
 public class EndPoints
 {
-    public const string Broker = "https://localhost:5050";
-}
+    public static readonly string Broker = $"https://{IpUtilities.GetLocalNetworkIpAddress()}:5050";
+
+    public static readonly string Subscriber = $"https://{IpUtilities.GetLocalNetworkIpAddress()}:0";
+}   

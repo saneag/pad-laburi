@@ -1,0 +1,18 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "gRPC_Messenger";
+
+package gRPC_Messenger;
+
+service Notification {
+  rpc Notify (NotifyRequest) returns (NotifyReply);
+}
+
+message NotifyRequest {
+  string title = 1;
+  string message = 2;
+}
+
+message NotifyReply {
+  bool isSuccess = 1;
+}
