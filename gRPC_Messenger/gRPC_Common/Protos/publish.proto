@@ -1,0 +1,19 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "gRPC_Messenger";
+
+package gRPC_Messenger;
+
+service Publisher {
+  rpc PublishPost (PublishRequest) returns (PublishReply);
+}
+
+message PublishRequest {
+  string topic = 1;
+  string title = 2;
+  string message = 3;
+}
+
+message PublishReply {
+  bool isSuccess = 1;
+}

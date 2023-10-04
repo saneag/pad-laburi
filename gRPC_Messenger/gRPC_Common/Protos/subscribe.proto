@@ -1,0 +1,18 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "gRPC_Messenger";
+
+package gRPC_Messenger;
+
+service Subscriber {
+  rpc Subscribe (SubscribeRequest) returns (SubscribeReply);
+}
+
+message SubscribeRequest {	
+	string address = 1;
+	repeated string subscriptions = 2;
+}
+
+message SubscribeReply {
+  bool isSuccess = 1;
+}
