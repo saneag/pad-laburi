@@ -1,0 +1,125 @@
+[{
+  "_id": {
+    "$oid": "646652aca5df1b1ef24c79e9"
+  },
+  "firstName": "Alexandr",
+  "lastName": "Garstea",
+  "email": "garstea2002@mail.ru",
+  "passwordHash": "$2b$10$OZn0DD/TqTxeJb3.L0pHKO5Y2/QqmFa/28krcoPAlJERdBz4Z/ol2",
+  "avatarUrl": "uploads/userAvatar/man.png",
+  "description": "My name is alex and i am a frontend developer that likes to work with react js and sometimes create backend using node js and express.",
+  "role": "user",
+  "createdAt": {
+    "$date": "2023-05-18T16:30:36.975Z"
+  },
+  "updatedAt": {
+    "$date": "2023-10-24T20:45:41.494Z"
+  },
+  "__v": 0,
+  "following": [
+    {
+      "$oid": "646652aca5df1b1ef24c79e9"
+    },
+    {
+      "$oid": "6473382cb69303c6389eebed"
+    }
+  ],
+  "followers": [
+    {
+      "$oid": "646652aca5df1b1ef24c79e9"
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "6473382cb69303c6389eebed"
+  },
+  "firstName": "Tentiuc",
+  "lastName": "Ion",
+  "email": "tentiuc.ion@gmail.com",
+  "passwordHash": "$2b$10$ScFGXbZX2BAl5ve0wAM9ouHUjdGbFgOpk6xl.mFQ551GJ8bXJA8he",
+  "avatarUrl": "uploads/userAvatar/cool.png",
+  "description": "",
+  "role": "user",
+  "createdAt": {
+    "$date": "2023-05-28T11:17:00.495Z"
+  },
+  "updatedAt": {
+    "$date": "2023-06-06T11:54:07.740Z"
+  },
+  "__v": 0,
+  "followers": [
+    {
+      "$oid": "646652aca5df1b1ef24c79e9"
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "6477558c7b8cb0df763e2d1c"
+  },
+  "firstName": "Daniel",
+  "lastName": "Raileanu",
+  "email": "442god@mail.ru",
+  "passwordHash": "$2b$10$L8wKh4xfvpwvhyxFGOwps.6FwwUIu6DijalHHZG/pTPZ6633U6Ekm",
+  "avatarUrl": "uploads/userAvatar/Wallpaper_W124.jpg",
+  "description": "i like Hasbulla ",
+  "role": "user",
+  "followers": [],
+  "following": [],
+  "followRequests": [],
+  "followingRequests": [],
+  "createdAt": {
+    "$date": "2023-05-31T14:11:24.660Z"
+  },
+  "updatedAt": {
+    "$date": "2023-06-07T17:11:53.177Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "647f1488a57d01a937f14538"
+  },
+  "firstName": "Andrei",
+  "lastName": "Ion",
+  "email": "andrei.i1@mail.ru",
+  "passwordHash": "$2b$10$00YstW2bAitsLFjpgjROnukz5eIGPacPHjIVl.JLxLjqINeWPLvr.",
+  "avatarUrl": "",
+  "description": "",
+  "role": "user",
+  "followers": [],
+  "following": [],
+  "followRequests": [],
+  "followingRequests": [],
+  "createdAt": {
+    "$date": "2023-06-06T11:12:08.659Z"
+  },
+  "updatedAt": {
+    "$date": "2023-06-06T11:12:11.821Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "647f242a4eda6507db67fb81"
+  },
+  "firstName": "Temp",
+  "lastName": "User",
+  "email": "tempuser@gmail.com",
+  "passwordHash": "$2b$10$Ifav1AtEdA8qBe9wDj7d6efCva.MgZdno0vH.uh0SsdyIiqT3RgA.",
+  "avatarUrl": "",
+  "description": "",
+  "role": "user",
+  "followers": [],
+  "following": [],
+  "followRequests": [],
+  "followingRequests": [],
+  "createdAt": {
+    "$date": "2023-06-06T12:18:50.375Z"
+  },
+  "updatedAt": {
+    "$date": "2023-06-06T12:19:32.819Z"
+  },
+  "__v": 0
+}]
