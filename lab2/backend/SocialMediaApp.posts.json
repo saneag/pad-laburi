@@ -1,0 +1,454 @@
+[{
+  "_id": {
+    "$oid": "647f07f48fd714e2a2575dee"
+  },
+  "title": "Vara e aici! Savureaz-o cu AltNet.",
+  "content": "!@Avem grijă ca tu să ai acces cât mai rapid la tot ce-ți trebuie: net de super viteză, pana la 1000 Mbps și peste 200 de canale la care poți conecta concomitent 4 televizoare.<br>Tot ce ai nevoie, acum sau mai târziu.!@",
+  "image": "uploads/postImage/352405059_1677136909428775_1953543262061450669_n.jpg",
+  "creator": {
+    "firstName": "Daniel",
+    "lastName": "Raileanu",
+    "email": "442god@mail.ru",
+    "avatarUrl": "uploads/userAvatar/Logo.png"
+  },
+  "comments": [
+    {
+      "content": "Niceee",
+      "creator": {
+        "firstName": "Daniel",
+        "lastName": "Raileanu",
+        "email": "442god@mail.ru",
+        "avatarUrl": "uploads/userAvatar/Wallpaper_W124.jpg"
+      },
+      "createdAt": {
+        "$date": "2023-06-06T11:09:32.875Z"
+      },
+      "updatedAt": {
+        "$date": "2023-06-06T11:09:32.875Z"
+      },
+      "postId": "647f07f48fd714e2a2575dee"
+    },
+    {
+      "content": "Eu prefer mai tare orange internet",
+      "creator": {
+        "firstName": "Alexandr",
+        "lastName": "Garstea",
+        "email": "garstea2002@mail.ru",
+        "avatarUrl": "uploads/userAvatar/man.png"
+      },
+      "createdAt": {
+        "$date": "2023-06-06T11:26:12.519Z"
+      },
+      "updatedAt": {
+        "$date": "2023-06-06T11:26:12.519Z"
+      },
+      "postId": "647f07f48fd714e2a2575dee"
+    }
+  ],
+  "tags": [],
+  "reactions": [
+    {
+      "email": "442god@mail.ru",
+      "like": true,
+      "_id": {
+        "$oid": "647f11ce8fd714e2a2575e12"
+      }
+    },
+    {
+      "email": "garstea2002@mail.ru",
+      "dislike": true,
+      "_id": {
+        "$oid": "647f1379ca6677276c60b105"
+      }
+    }
+  ],
+  "createdAt": {
+    "$date": "2023-06-06T10:18:28.212Z"
+  },
+  "updatedAt": {
+    "$date": "2023-06-06T10:18:28.212Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "647f08938fd714e2a2575df3"
+  },
+  "title": "Revenirea lui Leo Messi la Barcelona",
+  "content": "!@Leo Messi **este aproape de revenirea la Barcelona**, la aproape doi ani din momentul despărțirii. În ciuda ofertei uriașe din Arabia Saudiă, starul argentinian este mai tentat să se întoarcă pe Camp Nou, iar acest lucru i se datorează și soției sale, Antonella Roccuzzo.!@",
+  "image": "uploads/postImage/Screenshot_1.png",
+  "creator": {
+    "firstName": "Daniel",
+    "lastName": "Raileanu",
+    "email": "442god@mail.ru",
+    "avatarUrl": "uploads/userAvatar/Logo.png"
+  },
+  "comments": [],
+  "tags": [],
+  "reactions": [
+    {
+      "email": "442god@mail.ru",
+      "like": true,
+      "_id": {
+        "$oid": "647f11cb8fd714e2a2575e0e"
+      }
+    },
+    {
+      "email": "garstea2002@mail.ru",
+      "like": true,
+      "_id": {
+        "$oid": "647f1380ca6677276c60b10b"
+      }
+    }
+  ],
+  "createdAt": {
+    "$date": "2023-06-06T10:21:07.699Z"
+  },
+  "updatedAt": {
+    "$date": "2023-06-06T10:21:07.699Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "647f09098fd714e2a2575df8"
+  },
+  "title": "Karim Benzema semnează cu Al Ittihad",
+  "content": "!@Karim Benzema semnează cu Al Ittihad! Postul public de televiziune Al Ijbariya din Arabia Saudită a anunţat că atacantul francez Karim Benzema a ajuns la un „acord oficial” cu Al Ittihad.!@",
+  "image": "uploads/postImage/karim-benzema-1-924x600.jpg",
+  "creator": {
+    "firstName": "Daniel",
+    "lastName": "Raileanu",
+    "email": "442god@mail.ru",
+    "avatarUrl": "uploads/userAvatar/Logo.png"
+  },
+  "comments": [],
+  "tags": [],
+  "reactions": [
+    {
+      "email": "442god@mail.ru",
+      "like": true,
+      "_id": {
+        "$oid": "647f125a8fd714e2a2575e2b"
+      }
+    },
+    {
+      "email": "garstea2002@mail.ru",
+      "like": true,
+      "_id": {
+        "$oid": "647f1374ca6677276c60b0ff"
+      }
+    }
+  ],
+  "createdAt": {
+    "$date": "2023-06-06T10:23:05.876Z"
+  },
+  "updatedAt": {
+    "$date": "2023-06-06T10:23:05.876Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "647f1c02a57d01a937f1457b"
+  },
+  "title": "Gluma zilei",
+  "content": "!@Lasă scuzele! Apucă-te de carte...și pune odată craiu cela!@",
+  "image": "uploads/postImage/352093441_970275064027229_714142252005384980_n.jpg",
+  "creator": {
+    "firstName": "Andrei",
+    "lastName": "Ion",
+    "email": "andrei.i1@mail.ru",
+    "avatarUrl": ""
+  },
+  "comments": [],
+  "tags": [],
+  "reactions": [],
+  "createdAt": {
+    "$date": "2023-06-06T11:44:02.487Z"
+  },
+  "updatedAt": {
+    "$date": "2023-06-06T11:44:02.487Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "647f1d50ca6677276c60b1eb"
+  },
+  "title": "Viata de student",
+  "content": "!@Am citit cu ochii închiși!@",
+  "image": "uploads/postImage/Screenshot 2023-06-06 144907.png",
+  "creator": {
+    "firstName": "Alexandr",
+    "lastName": "Garstea",
+    "email": "garstea2002@mail.ru",
+    "avatarUrl": "uploads/userAvatar/man.png"
+  },
+  "comments": [],
+  "tags": [],
+  "reactions": [],
+  "createdAt": {
+    "$date": "2023-06-06T11:49:36.662Z"
+  },
+  "updatedAt": {
+    "$date": "2023-06-06T11:49:36.662Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "647f1e50ca6677276c60b1f6"
+  },
+  "title": "Gta in real life",
+  "content": "!@O maşină a decolat de pe o autostradă din SUA, pentru că n-a observat un camion cu platformă, care venise să evacueze o altă maşină!@",
+  "image": "uploads/postImage/Screenshot 2023-06-06 145332.png",
+  "creator": {
+    "firstName": "Alexandr",
+    "lastName": "Garstea",
+    "email": "garstea2002@mail.ru",
+    "avatarUrl": "uploads/userAvatar/man.png"
+  },
+  "comments": [],
+  "tags": [],
+  "reactions": [],
+  "createdAt": {
+    "$date": "2023-06-06T11:53:52.262Z"
+  },
+  "updatedAt": {
+    "$date": "2023-06-06T11:53:52.262Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "647f1eabca6677276c60b20d"
+  },
+  "title": "Film nou in moldova",
+  "content": "!@A fost publicat filmul ediţiei 2023 a Distinguished Gentleman's Ride Chişinău, defilarea motocicletelor elegante care a avut acum o săptămână!@",
+  "image": "uploads/postImage/Screenshot 2023-06-06 145502.png",
+  "creator": {
+    "firstName": "Tentiuc",
+    "lastName": "Ion",
+    "email": "tentiuc.ion@gmail.com",
+    "avatarUrl": "uploads/userAvatar/cool.png"
+  },
+  "comments": [],
+  "tags": [],
+  "reactions": [],
+  "createdAt": {
+    "$date": "2023-06-06T11:55:23.465Z"
+  },
+  "updatedAt": {
+    "$date": "2023-06-06T11:55:23.465Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "647f1edba57d01a937f14591"
+  },
+  "title": "Socca Moldova Team",
+  "content": "!@Эмоции из тренировочного лагеря сборной. Сегодня днём команда вылетает в Германию на Чемпионат Мира по сокке!@",
+  "image": "uploads/postImage/351023136_1332835624295593_5590204977473541099_n.jpg",
+  "creator": {
+    "firstName": "Andrei",
+    "lastName": "Ion",
+    "email": "andrei.i1@mail.ru",
+    "avatarUrl": ""
+  },
+  "comments": [],
+  "tags": [],
+  "reactions": [
+    {
+      "email": "garstea2002@mail.ru",
+      "like": true,
+      "_id": {
+        "$oid": "647f22164eda6507db67fae4"
+      }
+    }
+  ],
+  "createdAt": {
+    "$date": "2023-06-06T11:56:11.043Z"
+  },
+  "updatedAt": {
+    "$date": "2023-06-06T11:56:11.044Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "647f1ee2ca6677276c60b218"
+  },
+  "title": "Pod prabusit din nou",
+  "content": "!@Un pod din India, construit de 8 ani încoace, s-a prăbuşit a doua oară!@",
+  "image": "uploads/postImage/Screenshot 2023-06-06 145611.png",
+  "creator": {
+    "firstName": "Tentiuc",
+    "lastName": "Ion",
+    "email": "tentiuc.ion@gmail.com",
+    "avatarUrl": "uploads/userAvatar/cool.png"
+  },
+  "comments": [],
+  "tags": [],
+  "reactions": [],
+  "createdAt": {
+    "$date": "2023-06-06T11:56:18.767Z"
+  },
+  "updatedAt": {
+    "$date": "2023-06-06T11:56:18.767Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "647f1f4dca6677276c60b239"
+  },
+  "title": "Hidrogenul nu e cel mai bun pentru masina",
+  "content": "!@Un norvegian a descoperit că Toyota Mirai pe hidrogen înseamnă costuri de consum de 2 ori mai mari decât un diesel şi de 6 ori mai mari decât o electrică!@",
+  "image": "uploads/postImage/Screenshot 2023-06-06 145759.png",
+  "creator": {
+    "firstName": "Tentiuc",
+    "lastName": "Ion",
+    "email": "tentiuc.ion@gmail.com",
+    "avatarUrl": "uploads/userAvatar/cool.png"
+  },
+  "comments": [
+    {
+      "content": "Eu sunt mai mult pentru masinile electrice, ele necesita mai putine costuri pe combustibil",
+      "creator": {
+        "firstName": "Alexandr",
+        "lastName": "Garstea",
+        "email": "garstea2002@mail.ru",
+        "avatarUrl": "uploads/userAvatar/man.png"
+      },
+      "createdAt": {
+        "$date": "2023-06-06T12:09:36.923Z"
+      },
+      "updatedAt": {
+        "$date": "2023-06-06T12:09:36.923Z"
+      },
+      "postId": "647f1f4dca6677276c60b239"
+    }
+  ],
+  "tags": [],
+  "reactions": [
+    {
+      "email": "garstea2002@mail.ru",
+      "dislike": true,
+      "_id": {
+        "$oid": "647f22054eda6507db67fae0"
+      }
+    },
+    {
+      "email": "442god@mail.ru",
+      "like": true,
+      "_id": {
+        "$oid": "6480bb9f55662af2036550ef"
+      }
+    }
+  ],
+  "createdAt": {
+    "$date": "2023-06-06T11:58:05.100Z"
+  },
+  "updatedAt": {
+    "$date": "2023-06-06T11:58:05.100Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "647f1fa8a57d01a937f1459c"
+  },
+  "title": "Dinamo Bucharest returned to the first tier",
+  "content": "!@Congratulations F.C. Dinamo București 1948<br>Dinamo Bucharest returned to the first tier after just one season in Liga 2 after defeating F.C. Argeș Pitești in the promotion-relegation play-off . There was Dinamo București- FC Argeș Pitești 6-1( first leg ) and FC Argeș Pitești- Dinamo București 4-2 ( second leg ). Dinamo Bucharest winning 8-5 on aggregate.!@",
+  "image": "uploads/postImage/351159451_642200337807124_1881272384857849932_n.jpg",
+  "creator": {
+    "firstName": "Andrei",
+    "lastName": "Ion",
+    "email": "andrei.i1@mail.ru",
+    "avatarUrl": ""
+  },
+  "comments": [],
+  "tags": [],
+  "reactions": [
+    {
+      "email": "garstea2002@mail.ru",
+      "like": true,
+      "_id": {
+        "$oid": "647f21c24eda6507db67fad8"
+      }
+    }
+  ],
+  "createdAt": {
+    "$date": "2023-06-06T11:59:36.939Z"
+  },
+  "updatedAt": {
+    "$date": "2023-06-06T11:59:36.939Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "647f1fb7ca6677276c60b24f"
+  },
+  "title": "Tragedie de langa Herson",
+  "content": "!@Barajul de langa Herson a fost aruncat in aer. 150 de tone de ulei industrial polueaza Niprul. „Faceti ce puteti sa va salvati viata”!@",
+  "image": "uploads/postImage/NmIyOWIxMWFlNzllZjg5MGNkNjQ5MTEzMmRjYmY1ZQ.thumb-1686049772csmg27c.jpeg",
+  "creator": {
+    "firstName": "Alexandr",
+    "lastName": "Garstea",
+    "email": "garstea2002@mail.ru",
+    "avatarUrl": "uploads/userAvatar/man.png"
+  },
+  "comments": [],
+  "tags": [],
+  "reactions": [
+    {
+      "email": "garstea2002@mail.ru",
+      "like": true,
+      "_id": {
+        "$oid": "647f21bc4eda6507db67fad0"
+      }
+    }
+  ],
+  "createdAt": {
+    "$date": "2023-06-06T11:59:51.337Z"
+  },
+  "updatedAt": {
+    "$date": "2023-06-06T11:59:51.337Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "647f22b74eda6507db67fb08"
+  },
+  "title": "Moldinconbank sustine poporul ucrainean",
+  "content": "!@Moldindconbank este solidara cu poporul ucrainean si a oferit un suport financiar tarii vecine, aflata intr-un conflict armat. Aproape 600&nbsp;000 de lei, echivalentul a 1&nbsp;180&nbsp;000 de hrivne, donati de catre clientii i angajatii bancii, au fost directionati catre spitalul clinic pentru copii din orasul Mykolaiv.&nbsp;!@",
+  "image": "uploads/postImage/3517896017825099835925674930428753350636845n-1685953674yselgwd.jpeg",
+  "creator": {
+    "firstName": "Alexandr",
+    "lastName": "Garstea",
+    "email": "garstea2002@mail.ru",
+    "avatarUrl": "uploads/userAvatar/man.png"
+  },
+  "comments": [],
+  "tags": [],
+  "reactions": [
+    {
+      "email": "garstea2002@mail.ru",
+      "dislike": true,
+      "_id": {
+        "$oid": "64cd5a66a38ced2f952f82a5"
+      }
+    }
+  ],
+  "createdAt": {
+    "$date": "2023-06-06T12:12:39.768Z"
+  },
+  "updatedAt": {
+    "$date": "2023-06-06T12:12:39.768Z"
+  },
+  "__v": 0
+}]
